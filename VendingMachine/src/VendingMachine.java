@@ -6,7 +6,15 @@ public class VendingMachine {
 		VendingMachineProcessor process = new VendingMachineProcessor();
 		
 		process.displayProducts();
-		process.insertCoin();
+		if (process.exactChangeRequired()) {
+			process.insertCoin();
+		}
+		else {
+			System.out.println("Choose Card/Coin option");
+			//business logic
+		}
+			
+		
 		process.performPurchase();
 	}
 

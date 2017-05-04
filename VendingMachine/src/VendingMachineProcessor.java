@@ -137,5 +137,12 @@ public class VendingMachineProcessor {
 			processRequest(optionSelected, eligibleProducts);
 		}		
 	}
+	
+	public boolean exactChangeRequired() {		
+		boolean coinOnly = true;
+			//logic for checking the machine if Only Coin needs to be inserted
+		
+		return coinOnly;
+	}
 
 }
