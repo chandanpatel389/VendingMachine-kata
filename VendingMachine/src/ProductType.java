@@ -52,4 +52,8 @@ public enum ProductType {
 		}
 		return rate;
 	}
+
+	public String getSymbol() {
+		return symbol;
+	}
 }

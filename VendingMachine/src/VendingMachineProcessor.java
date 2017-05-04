@@ -8,6 +8,7 @@ public class VendingMachineProcessor {
 	private String insertedCoin;
 	private int count = 0;
 	private CoinType coinType;
+	private Map<String, String> eligibleProducts;
 	
 	public void displayProducts() {
 		System.out.println(":::::::::::::::::::PRODUCTS:::::::::::::::::::::");
@@ -69,7 +70,7 @@ public class VendingMachineProcessor {
 		accountBalance  = (Float.valueOf(coinType.getCent()) * count) / 100.0f ;
 		System.out.println("Inserted Amount - $" + accountBalance);
 		
-		Map<String, String> eligibleProducts = ProductType.getEligibleProducts(accountBalance);
+		eligibleProducts = ProductType.getEligibleProducts(accountBalance);
 		
 		if(eligibleProducts.isEmpty()) {
 			System.out.println("Not Enough Money!!!");
@@ -106,12 +107,18 @@ public class VendingMachineProcessor {
 			returnCoin();
 		}
 		else if (eligibleProducts.containsKey(optionSelected)) {
-			String purchasedItem = eligibleProducts.get(optionSelected);
-			System.out.println("Take your " + purchasedItem);
-			float moneySpend = ProductType.getPrice(purchasedItem);
-			accountBalance = accountBalance - moneySpend;
-			if (accountBalance > 0.0) {
-				takeChange(accountBalance);
+			boolean itemSoldOut = false;
+			if (optionSelected.equals(ProductType.CANDY.getSymbol())) {
+				soldOut();
+			}
+			else {
+				String purchasedItem = eligibleProducts.get(optionSelected);
+				System.out.println("Take your " + purchasedItem);
+				float moneySpend = ProductType.getPrice(purchasedItem);
+				accountBalance = accountBalance - moneySpend;
+				if (accountBalance > 0.0) {
+					takeChange(accountBalance);
+				}
 			}
 		}
 		else {
@@ -120,6 +127,15 @@ public class VendingMachineProcessor {
 		}
 			
 		
+	}
+	
+	private void soldOut() {
+		System.out.println("Item is Sold Out, Please select other option");
+		Scanner scanner = new Scanner(System.in);
+		String optionSelected = scanner.nextLine();
+		if (!optionSelected.isEmpty()) {
+			processRequest(optionSelected, eligibleProducts);
+		}		
 	}
 
 }
